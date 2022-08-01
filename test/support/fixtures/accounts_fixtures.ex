@@ -7,16 +7,33 @@ defmodule Todo.AccountsFixtures do
   @doc """
   Generate a user.
   """
+
   def user_fixture(attrs \\ %{}) do
     {:ok, user} =
       attrs
       |> Enum.into(%{
         email: "some email",
-        password: "some password",
         user_name: "some user_name"
       })
       |> Todo.Accounts.create_user()
 
     user
+  end
+
+  @doc """
+  Generate a todo_activity.
+  """
+  def todo_activity_fixture(attrs \\ %{}) do
+    user = user_fixture()
+
+    {:ok, todo_activity} =
+      attrs
+      |> Enum.into(%{
+        activity: "some activity",
+        user_id: user.id
+      })
+      |> Todo.Accounts.create_todo_activity()
+
+    todo_activity
   end
 end

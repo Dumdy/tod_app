@@ -6,7 +6,7 @@ defmodule Todo.Accounts do
   import Ecto.Query, warn: false
   alias Todo.Repo
 
-  alias Todo.Accounts.User
+  alias Todo.Accounts.{User, TodoActivity}
 
   @doc """
   Returns the list of users.
@@ -90,15 +90,83 @@ defmodule Todo.Accounts do
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user changes.
+  Returns the list of todo_activities.
 
   ## Examples
 
-      iex> change_user(user)
-      %Ecto.Changeset{data: %User{}}
+      iex> list_todo_activities()
+      [%TodoActivity{}, ...]
 
   """
-  def change_user(%User{} = user, attrs \\ %{}) do
-    User.changeset(user, attrs)
+  def list_todo_activities do
+    Repo.all(TodoActivity)
+  end
+
+  @doc """
+  Gets a single todo_activity.
+
+  Raises `Ecto.NoResultsError` if the Todo activity does not exist.
+
+  ## Examples
+
+      iex> get_todo_activity!(123)
+      %TodoActivity{}
+
+      iex> get_todo_activity!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_todo_activity!(id), do: Repo.get!(TodoActivity, id)
+
+  @doc """
+  Creates a todo_activity.
+
+  ## Examples
+
+      iex> create_todo_activity(%{field: value})
+      {:ok, %TodoActivity{}}
+
+      iex> create_todo_activity(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_todo_activity(attrs \\ %{}) do
+    %TodoActivity{}
+    |> TodoActivity.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a todo_activity.
+
+  ## Examples
+
+      iex> update_todo_activity(todo_activity, %{field: new_value})
+      {:ok, %TodoActivity{}}
+
+      iex> update_todo_activity(todo_activity, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_todo_activity(%TodoActivity{} = todo_activity, attrs) do
+    todo_activity
+    |> TodoActivity.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a todo_activity.
+
+  ## Examples
+
+      iex> delete_todo_activity(todo_activity)
+      {:ok, %TodoActivity{}}
+
+      iex> delete_todo_activity(todo_activity)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_todo_activity(%TodoActivity{} = todo_activity) do
+    Repo.delete(todo_activity)
   end
 end

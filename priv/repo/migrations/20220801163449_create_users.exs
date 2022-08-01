@@ -5,7 +5,6 @@ defmodule Todo.Repo.Migrations.CreateUsers do
     create table(:users) do
       add :user_name, :string
       add :email, :string
-      add :password, :string
 
       timestamps()
     end

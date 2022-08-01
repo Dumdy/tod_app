@@ -1,11 +1,12 @@
 defmodule Todo.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Todo.Accounts.TodoActivity
 
   schema "users" do
     field :email, :string
-    field :password, :string
     field :user_name, :string
+    has_many(:todo_activities, TodoActivity)
 
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule Todo.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:user_name, :email, :password])
-    |> validate_required([:user_name, :email, :password])
+    |> cast(attrs, [:user_name, :email])
+    |> validate_required([:user_name, :email])
   end
 end

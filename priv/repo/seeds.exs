@@ -1,11 +1,15 @@
 # Script for populating the database. You can run it as:
 #
 #     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Todo.Repo.insert!(%Todo.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+alias Todo.{Accounts, Repo}
+alias Todo.Accounts.{User, TodoActivity}
+User |> Repo.delete_all()
+
+{:ok, janny} =
+  Accounts.create_user(%{
+    user_name: "Janny",
+    email: "janny@email.com"
+  })
+
+TodoActivity |> Repo.delete_all()
+Accounts.create_todo_activity(%{activity: "Do some dirty dishes", user_id: janny.id})
