@@ -11,13 +11,13 @@ defmodule TodoWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
-  scope "/", TodoWeb do
-    pipe_through :browser
+  scope "/" do
+    pipe_through(:api)
 
-    get "/", PageController, :index
+    forward("/graphql", Absinthe.Plug.GraphiQL, schema: TodoWeb.Schema)
   end
 
   # Other scopes may use custom stacks.
