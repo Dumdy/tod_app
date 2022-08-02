@@ -17,6 +17,8 @@ defmodule TodoWeb.Router do
   scope "/" do
     pipe_through(:api)
 
+    forward("/api", Absinthe.Plug, schema: TodoWeb.Schema)
+
     forward("/graphql", Absinthe.Plug.GraphiQL, schema: TodoWeb.Schema)
   end
 

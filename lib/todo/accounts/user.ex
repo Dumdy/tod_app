@@ -16,5 +16,6 @@ defmodule Todo.Accounts.User do
     user
     |> cast(attrs, [:user_name, :email])
     |> validate_required([:user_name, :email])
+    |> unique_constraint(:email)
   end
 end
