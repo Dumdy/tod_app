@@ -10,6 +10,12 @@ defmodule TodoWeb.Schema do
 
   mutation do
     import_fields(:users_mutations)
+    import_fields(:todo_activities_mutation)
+  end
+
+  object :mutation_error do
+    field(:key, non_null(:string))
+    field(:message, non_null(:string))
   end
 
   def context(ctx) do
