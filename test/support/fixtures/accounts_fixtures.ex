@@ -12,8 +12,8 @@ defmodule Todo.AccountsFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        email: "some email",
-        user_name: "some user_name"
+        email: "janny@email.com",
+        user_name: "Janny"
       })
       |> Todo.Accounts.create_user()
 
@@ -29,7 +29,7 @@ defmodule Todo.AccountsFixtures do
     {:ok, todo_activity} =
       attrs
       |> Enum.into(%{
-        activity: "some activity",
+        activity: "Do some dirty dishes",
         user_id: user.id
       })
       |> Todo.Accounts.create_todo_activity()
