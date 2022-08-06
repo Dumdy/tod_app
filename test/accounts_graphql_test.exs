@@ -1,20 +1,17 @@
 defmodule AccountsGraphqlTest do
   use TodoWeb.ConnCase, async: true
-  alias Todo.Accounts.{TodoActivity, User}
-  alias Todo.Repo
+  import Todo.AccountsFixtures
 
   describe "users queries and mutations test" do
     test "querying all users" do
+      user = user_fixture()
+
       user_query = """
       query{
         users{
           id
           userName
           email
-          todoActivities{
-          id
-          activity
-      }
         }
       }
       """
@@ -28,13 +25,7 @@ defmodule AccountsGraphqlTest do
                  "users" => [
                    %{
                      "email" => "janny@email.com",
-                     "id" => "1",
-                     "todoActivities" => [
-                       %{
-                         "activity" => "Do some dirty dishes",
-                         "id" => "1"
-                       }
-                     ],
+                     "id" => "#{user.id}",
                      "userName" => "Janny"
                    }
                  ]
@@ -75,7 +66,7 @@ defmodule AccountsGraphqlTest do
       }
       """
 
-      user = Repo.all(User) |> List.first()
+      user = user_fixture()
 
       variables = %{userId: user.id, userName: "Alex Manny", email: "alexmanny@email.com"}
 
@@ -100,7 +91,7 @@ defmodule AccountsGraphqlTest do
       }
       """
 
-      user = Repo.all(User) |> List.first()
+      user = user_fixture()
 
       variables = %{userId: user.id}
 
@@ -117,15 +108,15 @@ defmodule AccountsGraphqlTest do
   end
 
   describe "todo queries and mutations test" do
-    alias Todo.Accounts.TodoActivity
-
     test "querying all todos" do
+      todo = todo_activity_fixture()
+
       todo_query = """
       query{
-      todoActivities{
-      id
-      activity
-      }
+        todoActivities{
+        id
+        activity
+        }
       }
       """
 
@@ -138,7 +129,7 @@ defmodule AccountsGraphqlTest do
                  "todoActivities" => [
                    %{
                      "activity" => "Do some dirty dishes",
-                     "id" => "1"
+                     "id" => "#{todo.id}"
                    }
                  ]
                }
@@ -156,7 +147,7 @@ defmodule AccountsGraphqlTest do
       }
       """
 
-      user = Repo.all(User) |> List.first()
+      user = user_fixture()
       variables = %{activity: "Prepare dinner", userId: user.id}
 
       response =
@@ -179,7 +170,7 @@ defmodule AccountsGraphqlTest do
       }
       """
 
-      todo = Repo.all(TodoActivity) |> List.first()
+      todo = todo_activity_fixture()
       variables = %{todoActivityId: todo.id, activity: "Write some erlang code"}
 
       response =
@@ -202,8 +193,7 @@ defmodule AccountsGraphqlTest do
       }
       """
 
-      todo = Repo.all(TodoActivity) |> List.first()
-
+      todo = todo_activity_fixture()
       variables = %{todoActivityId: todo.id}
 
       response =
