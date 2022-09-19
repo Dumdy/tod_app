@@ -31,5 +31,7 @@ jobs:
           otp-version: '25'
       - run: mix deps.get
       - run: mix deps.compile
+      - run: mix ecto.create
+      - run: mix ecto.migrate
       - run: mix test
        
