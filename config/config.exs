@@ -10,6 +10,13 @@ import Config
 config :todo,
   ecto_repos: [Todo.Repo]
 
+# Configure the database for GitHub Actions
+if System.get_env("GITHUB_ACTIONS") do
+  config :todo, Todo.Repo,
+    username: "postgres",
+    password: "postgres"
+end
+
 # Configures the endpoint
 config :todo, TodoWeb.Endpoint,
   url: [host: "localhost"],
