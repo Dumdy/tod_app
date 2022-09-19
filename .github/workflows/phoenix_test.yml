@@ -1,20 +1,12 @@
-# <your-phoenix-app>/.github/workflows/phoenix_text.yml
-name: Elixir CI
-
-on:
-  push:
-    branches: [ main]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+on: push
 
 jobs:
-  run-tests:
+  test:
     runs-on: ubuntu-latest
-    container: node:10.18-jessie
+
     services:
-      postgres:
-        image: postgres:12
+      db:
+        image: postgres:11
         ports: ['5432:5432']
         env:
           POSTGRES_PASSWORD: postgres
@@ -23,15 +15,12 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-elixir@v1
         with:
-          elixir-version: '1.13.4'
           otp-version: '25'
+          elixir-version: '1.13.4'
       - run: mix deps.get
-      - run: mix deps.compile
-      - run: mix ecto.create
-      - run: mix ecto.migrate
       - run: mix test
-       
